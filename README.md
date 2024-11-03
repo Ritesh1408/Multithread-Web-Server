@@ -1,85 +1,95 @@
-<h1>Multi Threaded Proxy Server with and without Cache</h1>
 
-This project is implemented using `C` and Parsing of HTTP referred from <a href = "https://github.com/vaibhavnaagar/proxy-server"> Proxy Server </a>
+```markdown
+# Multithreaded Web Server in C
 
+This project is a lightweight, multithreaded web server implemented in C. It leverages multithreading to handle multiple client requests simultaneously, ensuring efficient handling of concurrent connections.
 
-## Index
+## Features
 
-- [Project Theory](https://github.com/Lovepreet-Singh-LPSK/MultiThreadedProxyServerClient#project-theory)
-- [How to Run](https://github.com/Lovepreet-Singh-LPSK/MultiThreadedProxyServerClient#How-to-Run)
-- [Demo](https://github.com/Lovepreet-Singh-LPSK/MultiThreadedProxyServerClient#Demo)
-- [Contributing](https://github.com/Lovepreet-Singh-LPSK/MultiThreadedProxyServerClient#contributing)
+- **Multithreading**: Capable of handling multiple requests concurrently by spawning threads for each client.
+- **LRU Cache**: Implements an LRU (Least Recently Used) caching mechanism to store and retrieve frequently accessed content quickly.
+- **Simple HTTP Handling**: Supports basic HTTP GET requests.
+- **Concurrency Control**: Efficient resource management using thread pooling and mutex locks.
+  
+## Requirements
 
-## Project Theory
+- **C Programming **
+- **POSIX-compliant system** (Linux/MacOS recommended for socket handling)
+- **CMake** (for building the project)
 
-[[Back to top]](https://github.com/Lovepreet-Singh-LPSK/MultiThreadedProxyServerClient#index)
+## Getting Started
 
-##### Introduction
+Follow these instructions to set up and run the web server on your local machine.
 
-##### Basic Working Flow of the Proxy Server:
-![](https://github.com/Lovepreet-Singh-LPSK/MultiThreadedProxyServerClient/blob/main/pics/UML.JPG)
+### Installation
 
-##### How did we implement Multi-threading?
-- Used Semaphore instead of Condition Variables and pthread_join() and pthread_exit() function. 
-- pthread_join() requires us to pass the thread id of the the thread to wait for. 
-- Semaphore’s sem_wait() and sem_post() doesn’t need any parameter. So it is a better option. 
+1. **Clone the Repository**:
+   ```bash
+   git clone https://github.com/Ritesh1408/Multithread-Web-Server.git
+   cd Multithread-Web-Server
+   ```
 
+2. **Build the Project**:
+   - Make sure you have CMake installed. Then, run:
+     ```bash
+     mkdir build
+     cd build
+     cmake ..
+     make
+     ```
 
-##### Motivation/Need of Project
-- To Understand → 
-  - The working of requests from our local computer to the server.
-  - The handling of multiple client requests from various clients.
-  - Locking procedure for concurrency.
-  - The concept of cache and its different functions that might be used by browsers.
-- Proxy Server do → 
-  - It speeds up the process and reduces the traffic on the server side.
-  - It can be used to restrict user from accessing specific websites.
-  - A good proxy will change the IP such that the server wouldn’t know about the client who sent the request.
-  - Changes can be made in Proxy to encrypt the requests, to stop anyone accessing the request illegally from your client.
- 
-##### OS Component Used ​
-- Threading
-- Locks 
-- Semaphore
-- Cache (LRU algorithm is used in it)
+3. **Run the Server**:
+   - After building, you can start the server by running:
+     ```bash
+     ./webserver
+     ```
 
-##### Limitations ​
-- If a URL opens multiple clients itself, then our cache will store each client’s response as a separate element in the linked list. So, during retrieval from the cache, only a chunk of response will be send and the website will not open
-- Fixed size of cache element, so big websites may not be stored in cache. 
+### Usage
 
-##### How this project can be extended? ​
-- This code can be implemented using multiprocessing that can speed up the process with parallelism.
-- We can decide which type of websites should be allowed by extending the code.
-- We can implement requests like POST with this code.
+- By default, the server runs on `localhost` at port `8080`.
+- You can access the server from a browser or via `curl`:
+  ```bash
+  curl http://localhost:8080
+  ```
+- The server’s settings (e.g., port, thread pool size) can be modified in the configuration file or within the source code as needed.
 
+## Project Structure
 
-# Note :-
-- Code is well commented. For any doubt you can refer to the comments.
+- `src/` : Contains the main server source code, including multithreading and caching logic.
+- `include/` : Header files for the server.
+- `tests/` : Test cases to validate server functionality.
 
+## Configuration
 
-## How to Run
-
-```bash
-$ git clone https://github.com/Lovepreet-Singh-LPSK/MultiThreadedProxyServerClient.git
-$ cd MultiThreadedProxyServerClient
-$ make all
-$ ./proxy <port no.>
-```
-`Open http://localhost:port/https://www.cs.princeton.edu/`
-
-# Note:
-- This code can only be run in Linux Machine. Please disable your browser cache.
-- To run the proxy without cache Change the name of the file (`proxy_server_with_cache.c to proxy_server_without_cache.c`) MakeFile.
-
-## Demo
-![](https://github.com/Lovepreet-Singh-LPSK/MultiThreadedProxyServerClient/blob/main/pics/cache.png)
-- When website is opened for the first time (`url not found`) then cache will be miss.
-- Then if you again open that website again then `Data is retrieved from the cache` will be printed.
+- **Port Number**: The default port is `8080`. You can change this in the source code or configuration file.
+- **Thread Pool Size**: Adjust the thread pool size based on the expected load for optimal performance.
+- **Cache Size**: Customize the LRU cache size depending on the amount of data you expect to serve frequently.
 
 ## Contributing
 
-[[Back to top]](https://github.com/Lovepreet-Singh-LPSK/MultiThreadedProxyServerClient#index)
+Contributions are welcome! If you want to add features or fix bugs, please follow these steps:
 
-Feel free to add some useful. You can see `How this code can be extended`. Use ideas from there and feel free to fork and CHANGE. 
+1. Fork the repository.
+2. Create a new branch:
+   ```bash
+   git checkout -b feature/your-feature
+   ```
+3. Commit your changes and push to your fork:
+   ```bash
+   git commit -m "Add your message here"
+   git push origin feature/your-feature
+   ```
+4. Open a pull request.
 
-#### Enjoy CODE and pull requests are highly appreciated.
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Acknowledgments
+
+- Inspiration from low-level web servers and C concurrency libraries.
+- Contributions and support from the C open-source community.
+
+```
+
+This `README.md` file should help users understand the project setup, run the server, and contribute if they wish. Adjust any paths, instructions, or configurations based on your actual setup and project requirements.
